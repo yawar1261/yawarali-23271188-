@@ -1,0 +1,40 @@
+pipeline DataPipeline {
+    block DataExtractor oftype HttpExtractor {
+        url: "https://opendata.rhein-kreis-neuss.de/api/v2/catalog/datasets/rhein-kreis-neuss-flughafen-weltweit/exports/csv";
+    }
+
+    block TextDataFileInterpreter oftype TextFileInterpreter {}
+    block CSVDataTypeInterpreter oftype CSVInterpreter { 
+        delimiter: ';';
+        }
+
+    block TableDataTypeInterpreter oftype TableInterpreter {
+        header: true;
+        columns: [ 
+            "column1" oftype integer,
+            "column2" oftype text,
+            "column3" oftype text,
+            "column4" oftype text,
+            "column5" oftype text,
+            "column6" oftype text,
+            "column7" oftype decimal,
+            "column8" oftype decimal,
+            "column9" oftype integer,
+            "column10" oftype decimal,
+            "column11" oftype text,
+            "column12" oftype text,
+            "geo_punkt" oftype text,
+            ];
+        }
+
+    
+    block Loader oftype SQLiteLoader { table: "airports"; file: "./airports.sqlite"; }
+
+
+
+    DataExtractor
+        -> TextDataFileInterpreter
+        -> CSVDataTypeInterpreter
+        -> TableDataTypeInterpreter
+        -> Loader;
+}
