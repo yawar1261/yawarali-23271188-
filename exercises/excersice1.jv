@@ -25,7 +25,7 @@ pipeline DataPipeline {
             "column12" oftype text,
             "geo_punkt" oftype text,
             ];
-        }
+        }    
 
     
     block Loader oftype SQLiteLoader { table: "airports"; file: "./airports.sqlite"; }
