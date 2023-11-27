@@ -30,8 +30,6 @@ pipeline DataPipeline {
     
     block Loader oftype SQLiteLoader { table: "airports"; file: "./airports.sqlite"; }
 
-
-
     DataExtractor
         -> TextDataFileInterpreter
         -> CSVDataTypeInterpreter
